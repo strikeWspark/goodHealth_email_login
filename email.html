@@ -1,0 +1,46 @@
+<html>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<body>
+<h1>Enter the email</h1>
+<input type="text" id="emailid"><br>
+<button type="submit" onclick="mysendotpfunction()" id="send">Send OTP</button>
+
+
+<div id = "submitOtpForm"></div>
+
+<div id = "otpVerificationMessage"></div>
+
+
+
+<script>
+let x = "";
+function mysendotpfunction(){
+
+	var csrftoken = 'csrftoken';
+	let submitOtpForm = document.getElementById('submitOtpForm');
+	x = document.getElementById("emailid").value;
+	document.getElementById("send").innerHTML = "Sending OTP...";
+	$.post( "/sendotp/",{"email": x}, function( data ) {
+		console.log(data);
+		submitOtpForm.innerHTML = data;
+});
+}
+
+	function submitOTP(){
+		var otp = document.getElementById('otp').value;
+		var otpVerificationMessage = document.getElementById('otpVerificationMessage');
+		var email = x;
+		var postBody = {
+			"otp" : otp,
+			"email": x
+		};
+		$.post("/submitotp/", postBody, (response) => {
+			console.log(response);
+			otpVerificationMessage.innerHTML = response;
+		})
+	}
+
+</script>
+</body>
+</html>
